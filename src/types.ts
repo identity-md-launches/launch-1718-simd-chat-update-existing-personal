@@ -1,0 +1,13 @@
+export type Asset = 'BTC' | 'ETH' | 'SOL' | 'BNB';
+export type SourceKind = 'Social' | 'News' | 'On-chain';
+export type Page = 'overview' | 'sentiment' | 'signals' | 'backtest' | 'risk' | 'connections' | 'guide' | 'portfolio' | 'research';
+export type Candle = { time: number; open: number; high: number; low: number; close: number; volume: number; sentiment: number | null };
+export type FeedItem = { id: string; kind: SourceKind; publisher: string; title: string; score: number; time: number; url?: string };
+export type Source = { kind: SourceKind; score: number | null; count: number; updatedAt: number | null; status: 'ready' | 'unavailable'; detail: string };
+export type Snapshot = { asset: Asset; mode: 'demo' | 'live'; asOf: number; price: number; change: number; volume: number; candles: Candle[]; sources: Source[]; feed: FeedItem[]; interval?: number; forming?: Candle | null; venue?: string; lotSize?: number; orderMin?: number; receivedAt?: number };
+export type Strategy = { name: string; buy: number; sell: number; maxRsi: number; weights: Record<SourceKind, number>; stop: number; target: number; risk: number };
+export type Trade = { entryTime: number; exitTime: number; entry: number; exit: number; quantity: number; pnl: number; reason: string; equity: number };
+export type BacktestConfig = { capital: number; fee: number; slippage: number; buy: number; sell: number; maxRsi: number; stop: number; target: number; risk: number };
+export type BacktestResult = { trades: Trade[]; equity: { time: number; value: number }[]; returnPct: number; maxDrawdown: number; winRate: number; finalEquity: number; benchmark: number; bars: number };
+export type BacktestSession = { config: BacktestConfig; history: Candle[]; dataset: string; range: string; result: BacktestResult | null; resultConfig: BacktestConfig | null };
+export type PaperOrder = { id: string; time: number; asset: Asset; exchange: string; side: 'buy' | 'sell'; quantity: number; price: number; stop: number; target: number };
